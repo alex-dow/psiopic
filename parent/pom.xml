@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.psikon.psiopic</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.1</version>
+    <name>Psiopic Parent</name>
+    <description>A generic news topic extractor</description>
+    <packaging>pom</packaging>
+    
+    <parent>
+        <groupId>com.psikon</groupId>
+        <artifactId>psikon-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+    
+    <build>
+	    <pluginManagement>
+	        <plugins>
+	           <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-assembly-plugin</artifactId>
+	                <version>2.4</version>
+	            </plugin>
+	        </plugins>
+	    </pluginManagement>
+    </build>
+    
+    <repositories>
+        <repository>
+            <id>psikon-repo</id>
+            <name>psikon-repo</name>
+            <url>https://dev.psikon.org/repo</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </repository>
+    </repositories>
+    
+    <scm>
+    	<connection>scm:svn:https://dev.psikon.org/svn/psiopic/tags/psiopic-0.1/psiopic/trunk</connection>
+    	<developerConnection>scm:svn:https://dev.psikon.org/svn/psiopic/tags/psiopic-0.1/psiopic/trunk</developerConnection>
+    	<url>scm:svn:https://dev.psikon.org/svn/psiopic/tags/psiopic-0.1/psiopic/trunk</url>
+    </scm>
+    
+</project>

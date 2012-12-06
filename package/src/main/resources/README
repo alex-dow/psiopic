@@ -1,0 +1,113 @@
+                                    __                          
+                                __ /\ \                         
+                _____     ____ /\_\\ \ \/'\      ___     ___    
+               /\ '__`\  /',__\\/\ \\ \ , <     / __`\ /' _ `\  
+               \ \ \L\ \/\__, `\\ \ \\ \ \\`\  /\ \L\ \/\ \/\ \ 
+                \ \ ,__/\/\____/ \ \_\\ \_\ \_\\ \____/\ \_\ \_\
+                 \ \ \/  \/___/   \/_/ \/_/\/_/ \/___/  \/_/\/_/
+                  \ \_\                                         
+                   \/_/                                         
+                   
+                    PRESENTS:
+                    
+                    Psiopic v0.1
+                    
+
+What is Psiopic?
+----------------
+
+Psiopic is set of tools that uses the Natural Language Toolkit (NLTK) and
+Wikinews to create a trained Bayes classifier.
+
+Included is an example web service showing what you can do with this
+classifier.
+
+https://github.com/v0idnull/psiopic
+
+Requirements:
+-------------
+
+The utilities require the following python packages:
+nltk, blessings
+
+The web service requires the following python packages:
+cherrypy, simplejson
+
+Note, building the corpus can be a time consuming task. On some machines this
+can be hours.
+
+Instructions:
+-------------
+
+The utilities are available in the utils directory.
+
+You can run python build_corpus.py -? and python build_classifier.py -? for
+more information on how to use the utilities.
+
+Note, chosing topics is not implemented yet. The following topics are scanned:
+
+Politics and conflicts
+Crime and law
+Economy and business
+Science and technology
+Culture and entertainment
+Disasters and accidents
+Sports
+
+The web service can be found in the extractor directory.
+
+You can run python start.py -? for more information on how to start the service.
+
+The webservice is a very basic HTTP service. Here is an example using the
+Requests HTTP library (http://docs.python-requests.org/en/latest/):
+
+1) Start the web service
+python start.py --pki-file=/home/jsmith/wikinews.pki
+
+2) Create a file called test.txt with this content:
+Firefighters are trying to determine what started a raging fire at a tire depot.
+
+The fire broke out around 5 a.m. Tuesday at Centre du Pneu DMG on Lacordaire Blvd. in St. Leonard.
+
+They were able to determine the fire began inside the building, on the side furthest from the street. They are still trying to figure out if the fire was accidental or if it was deliberately set.
+
+About 30 firefighters battled flames for an hour to bring the fire under control before eventually extinguishing it.
+
+Damage is estimated at $30,000 to the building, with an additional $20,000 loss of inventory.
+
+3) Run some python code:
+~$ python
+Python 2.7 (r27:82500, Aug 24 2012, 20:54:57) 
+[GCC 4.4.6 20120305 (Red Hat 4.4.6-4)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import requests
+>>> response = requests.post('http://localhost:21212/extract',open('test.txt').read(),headers={'Content-type':'plain/text'})
+>>> print response.text
+[[0.9994411735562096, "Disasters_and_accidents"]]
+>>>
+
+The response is a simple json list of 2 value arrays. The first value is the
+probability score, and the second value is the topic.
+
+Other:
+------
+
+This is not a perfect text miner and I'm sure there is plenty of room for
+improvement.
+
+The biggest concerns now are:
+
+1) Selection of topics
+This is an important one. In theory, these utilities should also work with a
+wikipedia database, thus creating a much larger corpus and more topics to scan
+for. But I'd need to find a more efficient way of parsing through that huge
+database.
+
+2) Topic Normalization
+Would be nice to run the build_corpus.py script once for all topics, and see
+where the mispellings or bad parsings exist and normalize all that into a single
+topic.
+
+3) Be tweak friendly
+Expose anything that can be configured as an option. Things such as how many
+words and bi-grams to use, word filters, minimum document size for a corpus.
